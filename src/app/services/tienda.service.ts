@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Videojuego } from '../model/videojuego';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { VideojuegoCarrito } from '../model/videojuegoCarrito';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TiendaService {
-  // ruta_webservices = "/web_services/" //esto es para el hosting
-  // ruta_webservices = "/server/" //esto es para local
-  ruta_webservices = '/server/';
+  //ruta_webservices = '/web_services/'; //esto es para el hosting
+  ruta_webservices = "/server/" //esto es para local
   //Todas las operaciones con el servicor se realizaran desde este servicio
   constructor(private http: HttpClient) {}
 
@@ -26,5 +26,18 @@ export class TiendaService {
     return this.http.get<Videojuego>(
       this.ruta_webservices + `web_services/obtenerVideojuegoPorId.php?id=${id}`
     );
+  }
+
+  agregarAlaCarrito(idVideojuego: number, cantidad: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.ruta_webservices}web_services/agragarProductoCarrito.php?id=`,
+      {
+        id: idVideojuego,
+        cantidad: cantidad,
+      }
+    );
+  }
+  obtenerVideojuegosCarrito(): Observable<VideojuegoCarrito[]>{
+    return this.http.get<VideojuegoCarrito[]>(`${this.ruta_webservices}web_services/obtenerVideojuegosCarrito.php`);
   }
 }

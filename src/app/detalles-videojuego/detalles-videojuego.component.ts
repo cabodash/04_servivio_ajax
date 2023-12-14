@@ -27,7 +27,13 @@ export class DetallesVideojuegoComponent {
       .subscribe((res) => (this.videojuego = res));
   }
 
-  agregarAlCarrito(): void{
-    
+  agregarAlCarrito(): void {
+    this.servicioTienda
+      .agregarAlaCarrito(this.idVideojuego, 1)
+      .subscribe((res) =>
+        res == 'ok'
+          ? alert('producto agregado el carrito')
+          : alert('No se pudo agregar al carrito')
+      );
   }
 }
